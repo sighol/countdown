@@ -11,6 +11,16 @@ struct Args {
     seconds: f64,
 }
 
+#[inline]
+fn print_duration(duration: &Duration) {
+    let hours = duration.as_secs() / 3600;
+    let minutes = (duration.as_secs() / 60) % 60;
+    let seconds = duration.as_secs() % 60;
+    let millis = (duration.as_millis() % 1000) / 10 * 10;
+    print!("\r{:02}:{:02}:{:02}.{:03}", hours, minutes, seconds, millis);
+}
+
+
 fn main() {
     let args = Args::parse();
     let start = Instant::now();
@@ -20,17 +30,14 @@ fn main() {
             break;
         }
         let reamining = Duration::from_secs_f64(args.seconds) - dt;
-        let hours = reamining.as_secs() / 3600;
-        let minutes = (reamining.as_secs() / 60) % 60;
-        let seconds = reamining.as_secs() % 60;
-        let millis = (reamining.as_millis() % 1000) / 10 * 10;
-        print!("\r{:02}:{:02}:{:02}.{:03}", hours, minutes, seconds, millis,);
+        print_duration(&reamining);
         std::io::stdout().flush().unwrap();
 
         let max_sleep_seconds: f64 = 0.08;
         let sleep_time = Duration::from_secs_f64(max_sleep_seconds.min(reamining.as_secs_f64()));
         std::thread::sleep(sleep_time);
     }
-    println!("\rDone sleeping for {} seconds", args.seconds);
+    print_duration(&Duration::from_secs(0));
+    println!(" \x1b[3mDone counting down from {} seconds\x1b[0m\n", args.seconds);
     std::io::stdout().flush().unwrap();
 }
