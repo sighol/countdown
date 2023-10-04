@@ -38,6 +38,6 @@ fn main() {
         std::thread::sleep(sleep_time);
     }
     print_duration(&Duration::from_secs(0));
-    println!(" \x1b[3mDone counting down from {} seconds\x1b[0m\n", args.seconds);
+    println!(" \x1b[3mDone counting down from {:.2} seconds\x1b[0m", args.seconds);
     std::io::stdout().flush().unwrap();
 }
