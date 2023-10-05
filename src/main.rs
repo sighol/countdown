@@ -29,12 +29,12 @@ fn main() {
         if dt.as_secs_f64() > args.seconds {
             break;
         }
-        let reamining = Duration::from_secs_f64(args.seconds) - dt;
-        print_duration(&reamining);
+        let remaining = Duration::from_secs_f64(args.seconds) - dt;
+        print_duration(&remaining);
         std::io::stdout().flush().unwrap();
 
         let max_sleep_seconds: f64 = 0.08;
-        let sleep_time = Duration::from_secs_f64(max_sleep_seconds.min(reamining.as_secs_f64()));
+        let sleep_time = Duration::from_secs_f64(max_sleep_seconds.min(remaining.as_secs_f64()));
         std::thread::sleep(sleep_time);
     }
     print_duration(&Duration::from_secs(0));
